@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getLaunchById } from "../../lib/spacex"
+
+  //Esto es necesario para que esta página funcione en el servidor y tenga el routing dinámico correctamente.
+  export const prerender = false;
+ 
+  const { id } = Astro.params
+  
+  let launch;
+  if(id){
+    launch = await getLaunchById({id})
+  }
+
+---
+<Layout>
+  <article>
+    <img 
+      class="w-52 h-auto"
+      src={launch?.links?.patch.small}
+      alt={launch?.name}
+    >
+    <h2 class="text-4xl text-white font-bold">
+      Launch Nº {launch?.flight_number}
+    </h2>
+    <p class="text-lg">
+        {launch?.details}
+    </p>
+  </article>
+</Layout>
